@@ -1,0 +1,103 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
+using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+
+public class Zap : MonoBehaviour
+{
+    [SerializeField]private Transform outPosition;
+    public float currentAmmo;
+    public int maxAmmo;
+    public bool infiniteAmmo;
+
+    public float ballSpeed;
+    public float shotFrequency;
+
+    private ObjectPool objectPool;
+    private float lastShootTime;
+    public bool isPlayer;
+    private ControlEnemy controlEnemy;
+    [SerializeField] private Camera CameraPlayer;
+
+    public TextMeshProUGUI ammunitionText;
+    public Image currentEnergyBar;
+
+    private void Awake()
+    {
+        //if I am the Player
+        if (GetComponent<ControlPlayer>())
+            isPlayer = true;
+        /*else if (GetComponent<ControlEnemy>())
+        {
+            shortFrequency = controlEnemy.EnemyData.shootFrequency;
+        }
+*/
+
+        ammunitionText.text = currentAmmo.ToString("00") + "/" + maxAmmo.ToString("00");
+
+        objectPool = GetComponent<ObjectPool>();
+    }
+
+    public bool canShoot()
+    {
+        if ((Time.time - lastShootTime >= shotFrequency) && !GameManager.instance.gamePaused)
+        {
+            if (currentAmmo >= 1 || infiniteAmmo) 
+                return true;
+        }
+        return false;
+    }
+
+    private void Update()
+    {
+        Vector3 aimSpot = CameraPlayer.transform.position;
+        //You will want to play around with the 50 to make it feel accurate.
+        aimSpot += CameraPlayer.transform.forward * 50.0f;
+        transform.LookAt(aimSpot);
+        if (currentAmmo >= maxAmmo || infiniteAmmo)
+        {
+            currentAmmo = maxAmmo;
+            currentEnergyBar.fillAmount = (float)currentAmmo / (float)maxAmmo;
+            currentEnergyBar.color = Color.yellow;
+        }
+            
+
+        Recharge();
+    }
+
+    void Recharge()
+    {
+        currentAmmo = (float)currentAmmo + 0.1f * maxAmmo * Time.deltaTime;
+        currentEnergyBar.fillAmount = (float)currentAmmo / (float)maxAmmo;
+        
+    }
+
+    public void Shoot()
+    {
+
+        lastShootTime = Time.time;
+        currentAmmo--;
+        currentEnergyBar.color = Color.blue;
+
+        currentEnergyBar.fillAmount = (float)currentAmmo / (float)maxAmmo;
+        ammunitionText.text = currentAmmo.ToString("00") + "/" + maxAmmo.ToString("00"); 
+        
+
+        GameObject ammo = objectPool.GetGameObject();
+
+        ammo.transform.position = outPosition.position;
+        ammo.transform.rotation = outPosition.rotation;
+        ammo.transform.localRotation = outPosition.rotation;
+
+        ammo.GetComponent<Bullet>().isPlayer = isPlayer;
+
+
+        ammo.GetComponent<Rigidbody>().velocity = outPosition.forward * ballSpeed;
+        gameObject.SetActive(true);
+    }
+
+    
+
+}
