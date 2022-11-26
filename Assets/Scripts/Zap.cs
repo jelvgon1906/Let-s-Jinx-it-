@@ -23,6 +23,8 @@ public class Zap : MonoBehaviour
 
     public TextMeshProUGUI ammunitionText;
     public Image currentEnergyBar;
+    public float RechargeVelocity = 0.1f;
+    public float aimZone = 50f;
 
     private void Awake()
     {
@@ -54,22 +56,20 @@ public class Zap : MonoBehaviour
     {
         Vector3 aimSpot = CameraPlayer.transform.position;
         //You will want to play around with the 50 to make it feel accurate.
-        aimSpot += CameraPlayer.transform.forward * 50.0f;
+        aimSpot += CameraPlayer.transform.forward * aimZone;
         transform.LookAt(aimSpot);
+
         if (currentAmmo >= maxAmmo || infiniteAmmo)
         {
             currentAmmo = maxAmmo;
             currentEnergyBar.fillAmount = (float)currentAmmo / (float)maxAmmo;
             currentEnergyBar.color = Color.yellow;
-        }
-            
-
-        Recharge();
+        }else Recharge();
     }
 
     void Recharge()
     {
-        currentAmmo = (float)currentAmmo + 0.1f * maxAmmo * Time.deltaTime;
+        currentAmmo = (float)currentAmmo + RechargeVelocity * maxAmmo * Time.deltaTime;
         currentEnergyBar.fillAmount = (float)currentAmmo / (float)maxAmmo;
         
     }
