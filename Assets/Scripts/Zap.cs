@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using System;
 
 public class Zap : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class Zap : MonoBehaviour
     public float ballSpeed;
     public float shotFrequency;
 
-    private ObjectPool objectPool;
+    [SerializeField] private ObjectPool objectPool;
     private float lastShootTime;
     public bool isPlayer;
     private ControlEnemy controlEnemy;
@@ -25,6 +26,8 @@ public class Zap : MonoBehaviour
     public Image currentEnergyBar;
     public float RechargeVelocity = 0.1f;
     public float aimZone = 50f;
+
+    
 
     private void Awake()
     {
@@ -82,22 +85,32 @@ public class Zap : MonoBehaviour
         currentEnergyBar.color = Color.blue;
 
         currentEnergyBar.fillAmount = (float)currentAmmo / (float)maxAmmo;
-        ammunitionText.text = currentAmmo.ToString("00") + "/" + maxAmmo.ToString("00"); 
-        
+        ammunitionText.text = currentAmmo.ToString("00") + "/" + maxAmmo.ToString("00");
 
+       
         GameObject ammo = objectPool.GetGameObject();
 
         ammo.transform.position = outPosition.position;
         ammo.transform.rotation = outPosition.rotation;
         ammo.transform.localRotation = outPosition.rotation;
 
-        ammo.GetComponent<Bullet>().isPlayer = isPlayer;
 
 
         ammo.GetComponent<Rigidbody>().velocity = outPosition.forward * ballSpeed;
         gameObject.SetActive(true);
-    }
 
-    
+        /*GameObject ammo1 = objectPool1.GetGameObject();
+
+        ammo1.transform.position = outPosition.position;
+        ammo1.transform.rotation = outPosition.rotation;
+        ammo1.transform.localRotation = outPosition.rotation;
+
+
+
+        ammo1.GetComponent<Rigidbody>().velocity = outPosition.forward * ballSpeed;
+        gameObject.SetActive(true);*/
+
+        
+    }
 
 }

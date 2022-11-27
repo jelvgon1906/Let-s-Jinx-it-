@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
 
-public class ControlEnemy : MonoBehaviour
+public class ControlRobot : MonoBehaviour
 {
     [Header("EnemyData")]
     public EnemyData EnemyData;
@@ -21,18 +21,25 @@ public class ControlEnemy : MonoBehaviour
     public float yPathOffset;
     public float followRange;
     public bool alwaysFollow;
-    GameObject enemy;
+    GameObject robot;
+
+    [Header("Hit")]
+    private float lastHitTime;
+    public float hitFrequency;
+    public int damageQuantity;
+
+
+    private Animator animator;
 
     private List<Vector3> listPath;
 
-    private WeaponController weaponController;
     private ControlPlayer target;
 
     private void Start()
     {
-        weaponController = GetComponent<WeaponController>();
+        animator = GetComponentInChildren<Animator>();
         target = FindObjectOfType<ControlPlayer>();
-        enemy = GetComponent<GameObject>(); 
+        robot = GetComponent<GameObject>();
 
         InvokeRepeating(nameof(UpdatePaths), 0.0f, 0.25f);
     }
@@ -50,32 +57,34 @@ public class ControlEnemy : MonoBehaviour
         listPath = navMeshPath.corners.ToList();
 
     }
-
-    private void Update()
+    void Update()
     {
+
         float distance = Vector3.Distance(transform.position, target.transform.position);
-        
-        if (distance <= followRange && distance > maxAttackRange || alwaysFollow) {
-            transform.LookAt(target.transform);
-            ReachTarget();
-            
-        }
-        else if (distance <= maxAttackRange && distance >= minAttackRange)
+
+        if (distance <= followRange && distance > maxAttackRange || alwaysFollow)
         {
             transform.LookAt(target.transform);
-            if (weaponController.canShoot())
+            ReachTarget();
+
+        }
+        else if (distance <= maxAttackRange && distance > minAttackRange)
+        {
+            transform.LookAt(target.transform);
+            if (canHit() == true)
             {
-             weaponController.Shoot();
+                lastHitTime = Time.time;
+                animator.SetTrigger("Punch"); 
+                FindObjectOfType<ControlPlayer>().DamagePlayer(damageQuantity);
             }
+
         }
         else if (distance <= minAttackRange)
         {
+            animator.SetTrigger("Punch");
+            FindObjectOfType<ControlPlayer>().DamagePlayer(damageQuantity);
             transform.LookAt(target.transform);
             RunFromTarget();
-            if (weaponController.canShoot())
-            {
-                weaponController.Shoot();
-            }
         }
 
         //lookat pero con mates
@@ -84,12 +93,20 @@ public class ControlEnemy : MonoBehaviour
         transform.eulerAngles = Vector3.up * angle;*/
     }
 
+    public bool canHit()
+    {
+        if ((Time.time - lastHitTime >= hitFrequency) && !GameManager.instance.gamePaused)
+        {
+                return true;
+        }
+        return false;
+    }
     /// <summary>
     /// move the enemy to reac the target following the path calculated
     /// </summary>
     private void ReachTarget()
     {
-        
+        animator.SetTrigger("Velocity");
         //if is not a path dont do anything
         if (listPath.Count == 0) return;
 
@@ -109,7 +126,7 @@ public class ControlEnemy : MonoBehaviour
         if (listPath.Count == 0) return;
 
         //calculate new pos at listpath
-        transform.position = Vector3.MoveTowards(transform.position, -listPath[0] + new Vector3(0, yPathOffset, 0) , speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, -listPath[0] + new Vector3(0, yPathOffset, 0), speed * Time.deltaTime);
 
         //everytime reach position remove it after
         if (transform.position == listPath[0] + new Vector3(0, yPathOffset, 0))

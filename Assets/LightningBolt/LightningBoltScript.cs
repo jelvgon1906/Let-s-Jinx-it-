@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 namespace DigitalRuby.LightningBolt
 {
@@ -81,6 +82,8 @@ namespace DigitalRuby.LightningBolt
         [Tooltip("The animation mode for the lightning")]
         public LightningBoltAnimationMode AnimationMode = LightningBoltAnimationMode.PingPong;
 
+        private Vector3 start, end;
+
         /// <summary>
         /// Assign your own random if you want to have the same lightning appearance
         /// </summary>
@@ -96,6 +99,7 @@ namespace DigitalRuby.LightningBolt
         private int animationOffsetIndex;
         private int animationPingPongDirection = 1;
         private bool orthographic;
+        [SerializeField] private Transform outPosition;
 
         private void GetPerpendicularVector(ref Vector3 directionNormalized, out Vector3 side)
         {
@@ -304,7 +308,14 @@ namespace DigitalRuby.LightningBolt
                 }
                 else
                 {
+                    /*StartObject.transform.position = outPosition.position;
+                    StartObject.transform.rotation = outPosition.rotation;
+                    StartObject.transform.localRotation = outPosition.rotation;
+                    EndObject.transform.position = outPosition.position;
+                    EndObject.transform.rotation = outPosition.rotation;
+                    EndObject.transform.localRotation = outPosition.rotation;*/
                     Trigger();
+                    
                 }
             }
             timer -= Time.deltaTime;
@@ -315,7 +326,6 @@ namespace DigitalRuby.LightningBolt
         /// </summary>
         public void Trigger()
         {
-            Vector3 start, end;
             timer = Duration + Mathf.Min(0.0f, timer);
             if (StartObject == null)
             {
@@ -333,6 +343,7 @@ namespace DigitalRuby.LightningBolt
             else
             {
                 end = EndObject.transform.position + EndPosition;
+
             }
             startIndex = 0;
             GenerateLightningBolt(start, end, Generations, Generations, 0.0f);

@@ -18,6 +18,7 @@ public class ControlPlayer : MonoBehaviour
     [SerializeField]private Camera CameraPlayer;
     private Animator animator;
     [SerializeField] private Zap zap;
+    [SerializeField] private GameObject handR;
 
     
 
@@ -27,11 +28,10 @@ public class ControlPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator = FindObjectOfType<Animator>();
+        animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         CameraPlayer = Camera.main;
         zap = FindObjectOfType(typeof(Zap)) as Zap;
-        
     }
 
     // Update is called once per frame
@@ -122,6 +122,7 @@ public class ControlPlayer : MonoBehaviour
         {
             Debug.Log("Game Over");
             animator.SetTrigger("death");
+            handR.SetActive(false);
         }
             
         
