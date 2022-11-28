@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEditor.PlayerSettings;
@@ -31,6 +32,7 @@ public class Bullet : MonoBehaviour
     Rigidbody rb;
     private int bound;
     [SerializeField] private bool stun;
+    [SerializeField] private TrailRenderer trailRenderer;
     private bool stunned;
 
 
@@ -46,6 +48,11 @@ public class Bullet : MonoBehaviour
         }
         else isShootByPlayer = false;*/
         rb = GetComponent<Rigidbody>();
+        trailRenderer = GetComponent<TrailRenderer>();
+        if(GetComponent<TrailRenderer>() != null)
+        {
+        trailRenderer.enabled = true;
+        }
         shootTime = Time.time;
     }
     
@@ -84,6 +91,7 @@ public class Bullet : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            transform.LookAt(target.transform);
         }
     }
         
@@ -130,6 +138,8 @@ public class Bullet : MonoBehaviour
         {
             hit = true;
             other.GetComponent<ControlEnemy>().DamageEnemy(damageQuantity);
+            if (GetComponent<TrailRenderer>() != null)
+                trailRenderer.enabled = false;
             gameObject.SetActive(false);
 
             if (stun)
@@ -142,15 +152,21 @@ public class Bullet : MonoBehaviour
             if (!isPlayer)
             {
                 other.GetComponent<ControlPlayer>().DamagePlayer(damageQuantity);
+                if (GetComponent<TrailRenderer>() != null)
+                    trailRenderer.enabled = false;
                 gameObject.SetActive(false);
         }
 
     }
         else if (other.CompareTag("Projectile") )
         {
+            if (GetComponent<TrailRenderer>() != null)
+                trailRenderer.enabled = true;
             gameObject.SetActive(true);
         }
         else {
+            if (GetComponent<TrailRenderer>() != null)
+                trailRenderer.enabled = false;
             gameObject.SetActive(false); ;
         }
          

@@ -51,6 +51,10 @@ public class ControlPlayer : MonoBehaviour
             {
                 zap.Shoot();
             }
+            if (fishBones.canShoot() && targetWeapon == FishBonesWeapon)
+            {
+                fishBones.Shoot();
+            }
         }
 
         if (Input.GetButton("Fire2") && targetWeapon == ZapWeapon)

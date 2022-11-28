@@ -162,9 +162,9 @@ RectTransform:
   m_Father: {fileID: 1413913954}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -561, y: -456}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 399, y: 84}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172373172
@@ -1448,7 +1448,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -1.4018784, y: 63}
+  m_AnchoredPosition: {x: -1.4018555, y: 63}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2038654842
@@ -1641,7 +1641,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116116350}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6.42, y: 0.8447369, z: 0.8447369}
   m_ConstrainProportionsScale: 1
@@ -1650,10 +1650,10 @@ RectTransform:
   - {fileID: 2038654841}
   m_Father: {fileID: 1413913954}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 563, y: -456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -100, y: -22}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2116116352
@@ -1778,6 +1778,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1775037684, guid: ad75d867746a56f48af7038fb0a6ea42, type: 3}
+      propertyPath: ballSpeed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775037684, guid: ad75d867746a56f48af7038fb0a6ea42, type: 3}
+      propertyPath: shotFrequency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775037685, guid: ad75d867746a56f48af7038fb0a6ea42, type: 3}
+      propertyPath: prefabObject
+      value: 
+      objectReference: {fileID: 7494383255583603892, guid: e5a59c896ec831d47878b2dd6c98c84d, type: 3}
     - target: {fileID: 4149719658422280400, guid: ad75d867746a56f48af7038fb0a6ea42, type: 3}
       propertyPath: EnergyBar
       value: 
