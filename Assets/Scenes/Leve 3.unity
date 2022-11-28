@@ -758,14 +758,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6173058797671483151, guid: ab5628c1c2231e740acd2747c965d349, type: 3}
-      propertyPath: maxAttackRange
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6173058797671483151, guid: ab5628c1c2231e740acd2747c965d349, type: 3}
-      propertyPath: minAttackRange
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6173058797671483384, guid: ab5628c1c2231e740acd2747c965d349, type: 3}
       propertyPath: m_Name
       value: Robot (2)
@@ -1234,7 +1226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.24313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

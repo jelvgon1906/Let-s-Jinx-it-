@@ -12,9 +12,4 @@ public class EnemyData : ScriptableObject
     public Material enemyMaterial;
     public int enemyLife;
     /*[SerializeField] public int enemyLife { get; private set; }*/
-
-
-
-
-
 }

@@ -99,7 +99,7 @@ namespace DigitalRuby.LightningBolt
         private int animationOffsetIndex;
         private int animationPingPongDirection = 1;
         private bool orthographic;
-        [SerializeField] private Transform outPosition;
+        /*[SerializeField] private Transform outPosition;*/
 
         private void GetPerpendicularVector(ref Vector3 directionNormalized, out Vector3 side)
         {

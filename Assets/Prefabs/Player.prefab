@@ -324,7 +324,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 95f5086fa31b2de43a5e33ae04502935, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -667,6 +667,9 @@ MonoBehaviour:
   mouseSensibility: 5
   maxViewX: 80
   minViewX: -75
+  CameraPlayer: {fileID: 0}
+  zap: {fileID: 0}
+  handR: {fileID: 0}
 --- !u!54 &3754053972733994831
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -701,7 +704,13 @@ MonoBehaviour:
   infiniteAmmo: 1
   ballSpeed: 5
   shotFrequency: 0.5
+  objectPool: {fileID: 0}
   isPlayer: 0
+  CameraPlayer: {fileID: 0}
+  ammunitionText: {fileID: 0}
+  currentEnergyBar: {fileID: 0}
+  RechargeVelocity: 0.1
+  aimZone: 50
 --- !u!114 &3754053972733994829
 MonoBehaviour:
   m_ObjectHideFlags: 0

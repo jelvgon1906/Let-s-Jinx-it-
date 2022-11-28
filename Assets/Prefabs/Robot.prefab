@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 6173058797671483388}
   - component: {fileID: 6173058797671483389}
   - component: {fileID: 6173058797671483136}
-  - component: {fileID: 6173058797671483151}
+  - component: {fileID: 2029869695}
   m_Layer: 0
   m_Name: Robot
-  m_TagString: Robot
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6173058797671483151
+--- !u!114 &2029869695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,21 +140,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 6173058797671483384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 807a6e7ce4d6aee47b29c24da1564487, type: 3}
+  m_Script: {fileID: 11500000, guid: b3562232ee1458949b0f3238383b3d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyData: {fileID: 0}
   currentLife: 15
   maxLife: 15
   enemyScorePoints: 15
-  speed: 3
-  maxAttackRange: 2
-  minAttackRange: 1.5
+  animator: {fileID: 4995664807417700958}
+  speed: 4
+  maxAttackRange: 3
+  minAttackRange: 2
   yPathOffset: 1
-  followRange: 50
+  followRange: 40
   alwaysFollow: 0
-  hitFrequency: 10
+  hitFrequency: 2
   damageQuantity: 5
+  Range: 0
+  Mele: 1
 --- !u!1001 &4995664807417700945
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,10 @@
+using Mono.Cecil;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEditor.PlayerSettings;
 using static UnityEngine.GraphicsBuffer;
 
@@ -14,55 +18,106 @@ public class Bullet : MonoBehaviour
     [SerializeField] private GameObject explosionParticle;
     /*[SerializeField] private Transform objectToLook, objectThatLooks, yPos;
     private Vector3 objectToLookPosition;*/
-    private Transform target;
-    [SerializeField] float speed = 10f;
+
+    [SerializeField] private GameObject bullet;
+    private GameObject target;
+
+    [SerializeField] float speed;
     [SerializeField] private bool bulletFollow = false;
+    [SerializeField] private bool rebound = false;
+    float curDistance;
+    [SerializeField] float rangeBounceDistance = 5;
+    private bool hit;
+    Rigidbody rb;
+    private int bound;
+    [SerializeField] private bool stun;
+    private bool stunned;
+
+
 
 
     //event change from active false to true
     private void OnEnable()
     {
+        
         /*if (GetComponentsInParent<Bullet>())
         {
             isPlayer = true;
         }
         else isShootByPlayer = false;*/
-
+        rb = GetComponent<Rigidbody>();
         shootTime = Time.time;
     }
+    
+
     void FixedUpdate()
     {
         if (Time.time - shootTime >= activeTime)
         {
             gameObject.SetActive(false);
         }
-
-        lookAtObject();
+        if (bulletFollow) BulletFollow();
+       /* lookAtObject();*/
         /* AddForce(Vector3.up * shotSpeed, ForceMode.Impulse);*/
     }
-    private void lookAtObject()
+    /*private void lookAtObject()
     {
 
-        /*objectToLook = GameObject.FindGameObjectWithTag("Robot").transform;
+        objectToLook = GameObject.FindGameObjectWithTag("Robot").transform;
         objectToLookPosition = objectToLook.transform.position;
 
-        objectThatLooks.transform.LookAt(objectToLookPosition);*/
+        objectThatLooks.transform.LookAt(objectToLookPosition);
 
-         }
+    }*/
     
 
     void Update()
     {
-        if (bulletFollow)
-        {
-
-            target = GameObject.FindGameObjectWithTag("Robot").transform;
-            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        }
-        
+        if (rebound) Rebound();
     }
 
 
+    private void BulletFollow()
+    { 
+        target = FindClosestEnemy();
+        if (target != null)
+        {
+            rb.velocity = Vector3.zero;
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        }
+    }
+        
+    public GameObject FindClosestEnemy()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+    private void Rebound()
+    {
+        if ((curDistance <= rangeBounceDistance) && hit && (bound <= 3))
+        { 
+            target = FindClosestEnemy();
+            
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+
+            hit = false;
+            bound++;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -73,15 +128,14 @@ public class Bullet : MonoBehaviour
 
         if (other.CompareTag("Enemy"))
         {
-
+            hit = true;
             other.GetComponent<ControlEnemy>().DamageEnemy(damageQuantity);
             gameObject.SetActive(false);
-        }
-        if (other.CompareTag("Robot"))
-        {
 
-            other.GetComponent<ControlRobot>().DamageEnemy(damageQuantity);
-            gameObject.SetActive(false);
+            if (stun)
+            {
+                other.GetComponent<ControlEnemy>().Stun();
+            }
         }
         else if (other.CompareTag("Player") /*&& !isPlayer*/)
         {
