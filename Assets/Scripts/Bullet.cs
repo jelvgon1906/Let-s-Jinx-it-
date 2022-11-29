@@ -16,7 +16,8 @@ public class Bullet : MonoBehaviour
     public float shootTime;
     
     [HideInInspector] public bool isPlayer;
-    [SerializeField] private GameObject explosionParticle;
+    [SerializeField] private GameObject hitParticle;
+    [SerializeField] private GameObject explosion;
     /*[SerializeField] private Transform objectToLook, objectThatLooks, yPos;
     private Vector3 objectToLookPosition;*/
 
@@ -32,8 +33,7 @@ public class Bullet : MonoBehaviour
     Rigidbody rb;
     private int bound;
     [SerializeField] private bool stun;
-    [SerializeField] private TrailRenderer trailRenderer;
-    private bool stunned;
+    [SerializeField] private bool explosive;
 
 
 
@@ -41,42 +41,44 @@ public class Bullet : MonoBehaviour
     //event change from active false to true
     private void OnEnable()
     {
-        
-        /*if (GetComponentsInParent<Bullet>())
+        ControlPlayer controlPlayer = GetComponentInParent(typeof(ControlPlayer)) as ControlPlayer;
+
+        if (controlPlayer)
         {
             isPlayer = true;
         }
-        else isShootByPlayer = false;*/
+        else isPlayer = false;
         rb = GetComponent<Rigidbody>();
-        trailRenderer = GetComponent<TrailRenderer>();
-        if(GetComponent<TrailRenderer>() != null)
-        {
-        trailRenderer.enabled = true;
-        }
+        
         shootTime = Time.time;
     }
-    
 
+    
     void FixedUpdate()
     {
         if (Time.time - shootTime >= activeTime)
         {
+            if (explosive)
+            {
+                GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+            }
             gameObject.SetActive(false);
         }
         if (bulletFollow) BulletFollow();
        /* lookAtObject();*/
         /* AddForce(Vector3.up * shotSpeed, ForceMode.Impulse);*/
     }
+
     /*private void lookAtObject()
-    {
+{
 
-        objectToLook = GameObject.FindGameObjectWithTag("Robot").transform;
-        objectToLookPosition = objectToLook.transform.position;
+   objectToLook = GameObject.FindGameObjectWithTag("Robot").transform;
+   objectToLookPosition = objectToLook.transform.position;
 
-        objectThatLooks.transform.LookAt(objectToLookPosition);
+   objectThatLooks.transform.LookAt(objectToLookPosition);
 
-    }*/
-    
+}*/
+
 
     void Update()
     {
@@ -127,46 +129,85 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject particles = Instantiate(hitParticle, transform.position, Quaternion.identity);
+        Destroy(particles, .1f);
+        if (collision.gameObject.tag == "Enemy")
+        {
+            hit = true;
+            collision.gameObject.GetComponent<ControlEnemy>().DamageEnemy(damageQuantity);
+            gameObject.SetActive(false);
+            if (explosive)
+            {
+                GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+            }
+            if (stun)
+            {
+                collision.gameObject.GetComponent<ControlEnemy>().Stun();
+            }
+        }
+        else if (collision.gameObject.tag == "Player" && !isPlayer)
+        {
+            collision.gameObject.GetComponent<ControlPlayer>().DamagePlayer(damageQuantity);
+            gameObject.SetActive(false);
+            if (explosive)
+            {
+                GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+            }
+        }
+        else if (collision.gameObject.tag == "Enemy")
+        {
+
+        }
+        else
+        {
+            if (explosive)
+            {
+                GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+            }
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
 
         /*gameObject.SetActive(false);*/
-        GameObject particles = Instantiate(explosionParticle, transform.position, Quaternion.identity);
-        Destroy(particles, 1f);
+        GameObject particles = Instantiate(hitParticle, transform.position, Quaternion.identity);
+        Destroy(particles, .1f);
 
         if (other.CompareTag("Enemy"))
         {
             hit = true;
             other.GetComponent<ControlEnemy>().DamageEnemy(damageQuantity);
-            if (GetComponent<TrailRenderer>() != null)
-                trailRenderer.enabled = false;
             gameObject.SetActive(false);
-
+            if (explosive)
+            {
+                GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+            }
             if (stun)
             {
                 other.GetComponent<ControlEnemy>().Stun();
             }
         }
-        else if (other.CompareTag("Player") /*&& !isPlayer*/)
+        else if (other.CompareTag("Player") && !isPlayer)
         {
-            if (!isPlayer)
+            other.GetComponent<ControlPlayer>().DamagePlayer(damageQuantity);
+            gameObject.SetActive(false);
+            if (explosive)
             {
-                other.GetComponent<ControlPlayer>().DamagePlayer(damageQuantity);
-                if (GetComponent<TrailRenderer>() != null)
-                    trailRenderer.enabled = false;
-                gameObject.SetActive(false);
+                GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+            }
         }
-
-    }
         else if (other.CompareTag("Projectile") )
         {
-            if (GetComponent<TrailRenderer>() != null)
-                trailRenderer.enabled = true;
-            gameObject.SetActive(true);
+            
         }
         else {
-            if (GetComponent<TrailRenderer>() != null)
-                trailRenderer.enabled = false;
+            if (explosive)
+            {
+                GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
+                
+            }
             gameObject.SetActive(false); ;
         }
          

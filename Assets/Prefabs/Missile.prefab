@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 9044786333819157393}
   m_Layer: 0
   m_Name: Missile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,18 +164,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 816e9b9b45ea06c42a86955a47d42190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageQuantity: 20
+  damageQuantity: 5
   activeTime: 4
   shootTime: 0
   isPlayer: 0
-  explosionParticle: {fileID: 8881157049050897570, guid: a53f8df3cb332e042b42a91b4b9b6ece, type: 3}
+  hitParticle: {fileID: 8881157049050897570, guid: a53f8df3cb332e042b42a91b4b9b6ece, type: 3}
+  explosion: {fileID: 4626372316373358399, guid: 3bff661526ba7dd4ab7f6a969e44dbdd, type: 3}
   bullet: {fileID: 7494383255583603892}
   speed: 5
   bulletFollow: 0
   rebound: 0
   rangeBounceDistance: 5
   stun: 0
-  trailRenderer: {fileID: 0}
+  explosive: 1
 --- !u!54 &6267805565298856109
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -191,7 +192,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!135 &4430918953851109356
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -203,7 +204,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.11
+  m_Radius: 1.11
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &9044786333819157393
 TrailRenderer:
@@ -226,7 +227,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: be5db06859f925f4fbd16b9bf2022e35, type: 2}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -257,12 +258,12 @@ TrailRenderer:
       - serializedVersion: 3
         time: 0
         value: 0.088371076
-        inSlope: 0.7906712
-        outSlope: 0.7906712
+        inSlope: 0.3929981
+        outSlope: 0.3929981
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.36262062
+        outWeight: 0.1614795
       - serializedVersion: 3
         time: 0.9859944
         value: 0

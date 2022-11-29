@@ -99,13 +99,15 @@ MonoBehaviour:
   activeTime: 3
   shootTime: 0
   isPlayer: 0
-  explosionParticle: {fileID: 8881157049050897570, guid: a53f8df3cb332e042b42a91b4b9b6ece, type: 3}
+  hitParticle: {fileID: 8881157049050897570, guid: a53f8df3cb332e042b42a91b4b9b6ece, type: 3}
+  explosion: {fileID: 4626372316373358399, guid: 3bff661526ba7dd4ab7f6a969e44dbdd, type: 3}
   bullet: {fileID: 9190656758600427683}
   speed: 30
   bulletFollow: 0
   rebound: 0
   rangeBounceDistance: 40
   stun: 1
+  explosive: 0
 --- !u!54 &5312513902253449857
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -45,6 +45,7 @@ public class ControlEnemy : MonoBehaviour
     [Header("SelectAI")]
     [SerializeField] private bool Range;
     [SerializeField] private bool Mele;
+    private float startSpeed;
 
     private void Start()
     {
@@ -54,6 +55,7 @@ public class ControlEnemy : MonoBehaviour
         enemy = GetComponent<GameObject>();
         rb = GetComponent<Rigidbody>();
         InvokeRepeating(nameof(UpdatePaths), 0.0f, 0.25f);
+        startSpeed = speed;
     }
     /// <summary>
     /// update every 0.5 seconds the path to target
@@ -136,7 +138,7 @@ public class ControlEnemy : MonoBehaviour
             {
                 lastHitTime = Time.time;
                 animator.SetTrigger("Punch");
-                target.DamagePlayer(damageQuantity);
+                StartCoroutine(meledmg());
             }
             else ReachTarget();
 
@@ -147,7 +149,7 @@ public class ControlEnemy : MonoBehaviour
             {
                 lastHitTime = Time.time;
                 animator.SetTrigger("Punch");
-                target.DamagePlayer(damageQuantity);
+                StartCoroutine(meledmg());
             }
             else
             {
@@ -157,9 +159,15 @@ public class ControlEnemy : MonoBehaviour
 
         
     }
+    IEnumerator meledmg()
+    {
+        yield return new WaitForSeconds(0.3f);
+        target.DamagePlayer(damageQuantity);
+    }
     public void Stun()
     {
         stunned = true;
+        if(animator != null)
         animator.SetTrigger("stunned");
         rb.velocity = Vector3.zero;
         Invoke("Reset", 3f);
@@ -184,7 +192,9 @@ public class ControlEnemy : MonoBehaviour
     /// </summary>
     private void ReachTarget()
     {
-        animator.SetFloat("Moving", movement);
+        speed = startSpeed;
+        if (animator != null)
+            animator.SetFloat("Moving", movement);
         
         //if is not a path dont do anything
         if (listPath.Count == 0) return;

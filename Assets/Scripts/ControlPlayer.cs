@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.XR;
+using Cursor = UnityEngine.Cursor;
 
 public class ControlPlayer : MonoBehaviour
 { [Header("Movement")]
@@ -20,21 +22,35 @@ public class ControlPlayer : MonoBehaviour
     private Animator animator;
     [SerializeField] private ZapController zap;
     [SerializeField] private FishBonesController fishBones;
-    [SerializeField] private GameObject handR;
+    [SerializeField] private WeaponController powPow;
+    [SerializeField] private GameObject hands;
+    [SerializeField] private GameObject handRight;
     [SerializeField] private GameObject EnergyBar;
+    [SerializeField] private GameObject Cannons;
     GameObject targetWeapon;
-    GameObject ZapWeapon, FishBonesWeapon, BombWeapon;
+    GameObject ZapWeapon, FishBonesWeapon, PowPowWeapon, BombWeapon;
     Rigidbody rb;
+
+    [SerializeField] private float cannonRotationSpeed;
+    [SerializeField] private bool rotateCanyon;
+    float y = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        FishBonesWeapon = GameObject.Find("/Player/CameraPlayer/handR/FishBones");
-        ZapWeapon = GameObject.Find("/Player/CameraPlayer/handR/Zap");
-        BombWeapon = GameObject.Find("/Player/CameraPlayer/handR/Bomb");
+        FishBonesWeapon = GameObject.Find("/Player/CameraPlayer/hands/FishBones");
+        ZapWeapon = GameObject.Find("/Player/CameraPlayer/hands/Zap");
+        PowPowWeapon = GameObject.Find("/Player/CameraPlayer/hands/PowPow");
+        /*Cannons = GameObject.Find("/Player/CameraPlayer/hands/PowPow/Jinx_PowPow/Cannons");*/
+        BombWeapon = GameObject.Find("/Player/CameraPlayer/hands/Bomb");
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         CameraPlayer = Camera.main;
+
+
+        handRight.SetActive(true);
+        targetWeapon = FishBonesWeapon;
+        ChangeWeapon();
     }
 
     // Update is called once per frame
@@ -55,33 +71,49 @@ public class ControlPlayer : MonoBehaviour
             {
                 fishBones.Shoot();
             }
+            if (powPow.canShoot() && targetWeapon == PowPowWeapon)
+            {
+                powPow.Shoot();
+                rotateCanyon = true;
+            }else rotateCanyon = false;
         }
+
+       /* if(rotateCanyon) cannonRotation();*/
 
         if (Input.GetButton("Fire2") && targetWeapon == ZapWeapon)
         {
             zap = FindObjectOfType(typeof(ZapController)) as ZapController;
-            handR.transform.localPosition = new Vector3(-0.211999997f, -0.0149999997f, 0f);
+            hands.transform.localPosition = new Vector3(-0.211999997f, -0.0149999997f, 0f);
 
         }
-        else if(Input.GetButtonUp("Fire2") && targetWeapon == ZapWeapon) handR.transform.localPosition = Vector3.zero;
+        else if(Input.GetButtonUp("Fire2") && targetWeapon == ZapWeapon) hands.transform.localPosition = Vector3.zero;
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            handR.transform.localPosition = new Vector3(0.107000001f, 0f, 0.100000001f);
+            handRight.SetActive(true);
+            hands.transform.localPosition = new Vector3(0.107000001f, 0f, 0.100000001f);
             targetWeapon = FishBonesWeapon;
             ChangeWeapon(/*FishBonesWeapon*/);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            targetWeapon = ZapWeapon;
-            handR.transform.localPosition = Vector3.zero;
-            ChangeWeapon(/*ZapWeapon*/);
-            EnergyBar.SetActive(true);
+            handRight.SetActive(false);
+            targetWeapon = PowPowWeapon;
+            ChangeWeapon();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            handRight.SetActive(true);
+            targetWeapon = ZapWeapon;
+            hands.transform.localPosition = Vector3.zero;
+            ChangeWeapon(/*ZapWeapon*/);
+            EnergyBar.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            handRight.SetActive(true);
             targetWeapon = BombWeapon;
-            handR.transform.localPosition = Vector3.zero;
+            hands.transform.localPosition = Vector3.zero;
             ChangeWeapon(/*BombWeapon*/);
         }
 
@@ -90,12 +122,15 @@ public class ControlPlayer : MonoBehaviour
 
     }
 
+    
+
     private void ChangeWeapon(/*GameObject targetWeapon*/)
     {
         FishBonesWeapon.SetActive(false);
         ZapWeapon.SetActive(false);
         BombWeapon.SetActive(false);
         EnergyBar.SetActive(false);
+        PowPowWeapon.SetActive(false);
 
         targetWeapon.SetActive(true);
     }
@@ -158,10 +193,22 @@ public class ControlPlayer : MonoBehaviour
         {
             Debug.Log("Game Over");
             animator.SetTrigger("death");
-            handR.SetActive(false);
+            hands.SetActive(false);
         }
             
         
     }
-   
+
+    /*private void cannonRotation()
+    {
+        y += cannonRotationSpeed;
+
+            if (y > 360.0f)
+            {
+                y = 0.0f;
+            }
+
+        Cannons.transform.localEulerAngles *//*Cannons.transform.localRotation*//* += (0, y, 0);
+    }*/
+
 }
