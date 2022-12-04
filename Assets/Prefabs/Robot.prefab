@@ -152,7 +152,7 @@ MonoBehaviour:
   maxAttackRange: 2
   minAttackRange: 1.5
   yPathOffset: 1
-  followRange: 40
+  followRange: 100
   alwaysFollow: 0
   stunned: 0
   hitFrequency: 2
