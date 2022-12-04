@@ -78,7 +78,7 @@ public class ControlPlayer : MonoBehaviour
             }else rotateCanyon = false;
         }
 
-       /* if(rotateCanyon) cannonRotation();*/
+        if (rotateCanyon) cannonRotation();
 
         if (Input.GetButton("Fire2") && targetWeapon == ZapWeapon)
         {
@@ -199,16 +199,17 @@ public class ControlPlayer : MonoBehaviour
         
     }
 
-    /*private void cannonRotation()
+    private void cannonRotation()
     {
         y += cannonRotationSpeed;
 
-            if (y > 360.0f)
-            {
-                y = 0.0f;
-            }
-
-        Cannons.transform.localEulerAngles *//*Cannons.transform.localRotation*//* += (0, y, 0);
-    }*/
+        if (y > 360.0f)
+        {
+            y = 0.0f;
+        }
+        /*Cannons.transform.localEulerAngles*/
+        /*Cannons.transform.localRotation = Cannons.transform.localRotation + (0, y, 0);*/
+        Cannons.transform.Rotate(new Vector3(0, y, 0), Space.Self);
+    }
 
 }
