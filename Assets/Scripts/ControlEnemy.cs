@@ -104,20 +104,20 @@ public class ControlEnemy : MonoBehaviour
             else if (distance <= maxAttackRange && distance > minAttackRange)
             {
                 transform.LookAt(target.transform);
-                if (weaponController.canShoot())
+            if (weaponController.canShoot())
                 {
                     weaponController.Shoot();
                 }
-            }
+            else ReachTarget();
+        }
             else if (distance <= minAttackRange)
             {
                 transform.LookAt(target.transform);
-                RunFromTarget();
                 if (weaponController.canShoot())
                 {
                     weaponController.Shoot();
-                }
-            }
+            }/*else RunFromTarget();*/
+        }
         
     }
 
@@ -201,7 +201,6 @@ public class ControlEnemy : MonoBehaviour
 
         //calculate new pos at listpath
         transform.position = Vector3.MoveTowards(transform.position, listPath[0] + new Vector3(0, yPathOffset, 0), speed * Time.deltaTime);
-
         //everytime reach position remove it after
         if (transform.position == listPath[0] + new Vector3(0, yPathOffset, 0))
         {
@@ -215,8 +214,8 @@ public class ControlEnemy : MonoBehaviour
         if (listPath.Count == 0) return;
 
         //calculate new pos at listpath
-        transform.position = Vector3.MoveTowards(transform.position, -listPath[0] + new Vector3(0, yPathOffset, 0) , speed * Time.deltaTime);
-
+        transform.position = Vector3.MoveTowards(transform.position, -listPath[0] + new Vector3(0, yPathOffset, 0), speed * Time.deltaTime);
+        rb.MovePosition(transform.position + listPath[0] + new Vector3(0, yPathOffset, 0)/** speed * Time.deltaTime*/);
         //everytime reach position remove it after
         if (transform.position == listPath[0] + new Vector3(0, yPathOffset, 0))
         {

@@ -198,10 +198,10 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4149719658422280410}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7a0bda551696bba488bf41c2edf9790f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.2
+  m_Radius: 0.33
   m_Height: 1.7
   m_Direction: 1
   m_Center: {x: 0, y: -0.16, z: 0}
@@ -217,8 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755f7323a161fd24ba87511051a4d95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLife: 100
-  currentLife: 100
+  maxLife: 250
+  currentLife: 250
   speed: 5
   jumpForce: 5
   mouseSensibility: 2
@@ -227,12 +227,13 @@ MonoBehaviour:
   CameraPlayer: {fileID: 4149719658224433051}
   zap: {fileID: 268762403}
   fishBones: {fileID: 1775037684}
-  powPow: {fileID: 7428825455752280892}
+  powPow: {fileID: 1064998164}
   hands: {fileID: 2071274342}
   handRight: {fileID: 3557801028551672389}
   EnergyBar: {fileID: 0}
-  Cannons: {fileID: 5583061376900521574}
-  cannonRotationSpeed: 1
+  Cannons: {fileID: 8020379529918259966}
+  Pivot: {fileID: 8020379529918259966}
+  cannonRotationSpeed: 6
   rotateCanyon: 0
 --- !u!54 &4149719658422280401
 Rigidbody:
@@ -271,11 +272,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541689, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.000002257526
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541689, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.000000059604645
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541689, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -287,15 +288,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541689, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541689, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541689, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541689, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -736,7 +737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3906963662628800995, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
       propertyPath: currentAmmo
-      value: 500
+      value: 434
       objectReference: {fileID: 0}
     - target: {fileID: 3906963662628800995, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
       propertyPath: shotFrequency
@@ -752,31 +753,62 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8058226871440767783, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3906963662628800995, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
---- !u!1 &5583061376900521574 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2043274245680458937, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
+--- !u!4 &329907661315366554 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6175630125527657541, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
   m_PrefabInstance: {fileID: 5845724698706916063}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &962214727551666599 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6663733802511825784, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
+  m_PrefabInstance: {fileID: 5845724698706916063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4350809655768503128 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7872575756747727239, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
+  m_PrefabInstance: {fileID: 5845724698706916063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4536458537040923128 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8058226871440767783, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
+  m_PrefabInstance: {fileID: 5845724698706916063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1064998164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4536458537040923128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c57b2d4d6a812f47a12b6f36e9927e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outPosition: {fileID: 962214727551666599}
+  outPosition1: {fileID: 4350809655768503128}
+  outPosition2: {fileID: 329907661315366554}
+  currentAmmo: 500
+  maxAmmo: 500
+  infiniteAmmo: 1
+  ballSpeed: 50
+  shotFrequency: 0.1
+  isPlayer: 1
 --- !u!4 &7259053353736505738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3863377322052008789, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
   m_PrefabInstance: {fileID: 5845724698706916063}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7428825455752280892 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3906963662628800995, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
+--- !u!1 &8020379529918259966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4498589240756572193, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}
   m_PrefabInstance: {fileID: 5845724698706916063}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e64ee88c8d1563f4db5687539612e2a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7386286889072133511
 PrefabInstance:
   m_ObjectHideFlags: 0

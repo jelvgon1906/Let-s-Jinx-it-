@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
@@ -22,18 +23,19 @@ public class ControlPlayer : MonoBehaviour
     private Animator animator;
     [SerializeField] private ZapController zap;
     [SerializeField] private FishBonesController fishBones;
-    [SerializeField] private WeaponController powPow;
+    [SerializeField] private PowPowController powPow;
     [SerializeField] private GameObject hands;
     [SerializeField] private GameObject handRight;
     [SerializeField] private GameObject EnergyBar;
     [SerializeField] private GameObject Cannons;
+    public GameObject Pivot;
     GameObject targetWeapon;
     GameObject ZapWeapon, FishBonesWeapon, PowPowWeapon, BombWeapon;
     Rigidbody rb;
 
     [SerializeField] private float cannonRotationSpeed;
     [SerializeField] private bool rotateCanyon;
-    float y = 0;
+    float x = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -74,9 +76,9 @@ public class ControlPlayer : MonoBehaviour
             if (powPow.canShoot() && targetWeapon == PowPowWeapon)
             {
                 powPow.Shoot();
-                rotateCanyon = true;
-            }else rotateCanyon = false;
-        }
+            }
+            rotateCanyon = true;
+        }else rotateCanyon = false;
 
         if (rotateCanyon) cannonRotation();
 
@@ -201,15 +203,19 @@ public class ControlPlayer : MonoBehaviour
 
     private void cannonRotation()
     {
-        y += cannonRotationSpeed;
 
-        if (y > 360.0f)
+        x += cannonRotationSpeed;
+
+        if (x > 360.0f)
         {
-            y = 0.0f;
+            x = 0.0f;
         }
         /*Cannons.transform.localEulerAngles*/
-        /*Cannons.transform.localRotation = Cannons.transform.localRotation + (0, y, 0);*/
-        Cannons.transform.Rotate(new Vector3(0, y, 0), Space.Self);
+        Cannons.transform.localRotation =  Quaternion.Euler(x, -90, 90);
+        /*Cannons.transform.Rotate(new Vector3(x, Cannons.transform.rotation.y, Cannons.transform.rotation.z), Space.Self);*/
+
+        /*Cannons.transform.RotateAround(Pivot.transform.position, Vector3.right, 1f);*/
+
     }
 
 }
