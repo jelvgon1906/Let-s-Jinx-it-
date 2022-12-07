@@ -34,6 +34,11 @@ public class PowPowController : MonoBehaviour
         objectPool = GetComponent<ObjectPool>();
     }
 
+    private void OnEnable()
+    {
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
+    }
+
     public bool canShoot()
     {
         if ((Time.time - lastShootTime >= shotFrequency) && !GameManager.instance.gamePaused)
@@ -62,6 +67,7 @@ public class PowPowController : MonoBehaviour
 
         ball.GetComponent<Rigidbody>().velocity = outPosition2.forward * ballSpeed;
         /*ball.GetComponent<TrailRenderer>().time = 0.1f;*/
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
         StartCoroutine(Shoot2());
     }
 
@@ -80,6 +86,7 @@ public class PowPowController : MonoBehaviour
 
 
         ball.GetComponent<Rigidbody>().velocity = outPosition2.forward * ballSpeed;
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
         StartCoroutine(Shoot3());
     }
     private IEnumerator Shoot3()
@@ -97,6 +104,8 @@ public class PowPowController : MonoBehaviour
 
 
         ball.GetComponent<Rigidbody>().velocity = outPosition2.forward * ballSpeed;
+
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 
 

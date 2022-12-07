@@ -9,7 +9,7 @@ public class HUDController : MonoBehaviour
 {
     public Image currentHealthBar;
     public static HUDController instance;
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText,ammoText;
     public GameObject PauseWindow;
     public int maxAmmo;
 
@@ -24,6 +24,11 @@ public class HUDController : MonoBehaviour
     {
         //Percentage health bar fill
         currentHealthBar.fillAmount = (float)currentHealth / (float)maxHealth;
+    }
+    public void UpdateAmmo(int currentAmmo, int maxAmmo)
+    {
+        //Percentage health bar fill
+        ammoText.text = currentAmmo.ToString("00") + "/" + maxAmmo.ToString("00");
     }
 
     public void UpdateScore(int score)

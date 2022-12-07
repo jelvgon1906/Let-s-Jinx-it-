@@ -26,7 +26,7 @@ public class ControlEnemy : MonoBehaviour
     public bool alwaysFollow;
     GameObject enemy;
     float movement;
-
+    private Vector3 targetPosition;
     private List<Vector3> listPath;
     Vector3 lastPosition;
 
@@ -80,6 +80,10 @@ public class ControlEnemy : MonoBehaviour
             if (Mele) MeleEnemy();
         }
         movement = Vector3.Distance(transform.position, lastPosition);
+
+        targetPosition = new Vector3(target.transform.position.x,
+                                        this.transform.position.y,
+                                        target.transform.position.z);
         //lookat pero con mates
         /*Vector3 direction = (target.transform.position - transform.position).normalized;
         float angle = Mathf.Atan2(direction.x, direction.z)* Mathf.Rad2Deg;
@@ -97,13 +101,13 @@ public class ControlEnemy : MonoBehaviour
         
             if (distance <= followRange && distance > maxAttackRange || alwaysFollow)
             {
-                transform.LookAt(target.transform);
+                transform.LookAt(targetPosition);
                 ReachTarget();
 
             }
             else if (distance <= maxAttackRange && distance > minAttackRange)
             {
-                transform.LookAt(target.transform);
+                transform.LookAt(targetPosition);
             if (weaponController.canShoot())
                 {
                     weaponController.Shoot();
@@ -112,7 +116,7 @@ public class ControlEnemy : MonoBehaviour
         }
             else if (distance <= minAttackRange)
             {
-                transform.LookAt(target.transform);
+                transform.LookAt(targetPosition);
                 if (weaponController.canShoot())
                 {
                     weaponController.Shoot();
@@ -123,17 +127,18 @@ public class ControlEnemy : MonoBehaviour
 
     private void MeleEnemy()
     {
-        float distance = Vector3.Distance(transform.position, target.transform.position);
+        float distance = Vector3.Distance(transform.position, targetPosition);
         
         if (distance <= followRange && distance > maxAttackRange || alwaysFollow)
         {
-            transform.LookAt(target.transform);
+            transform.LookAt(targetPosition);
+
             ReachTarget();
 
         }
         else if (distance <= maxAttackRange && distance > minAttackRange)
         {
-            transform.LookAt(target.transform);
+            transform.LookAt(targetPosition);
             if (canHit() == true)
             {
                 lastHitTime = Time.time;
@@ -153,7 +158,7 @@ public class ControlEnemy : MonoBehaviour
             }
             else
             {
-                transform.LookAt(target.transform);
+                transform.LookAt(targetPosition);
             }
         }
 
@@ -225,11 +230,12 @@ public class ControlEnemy : MonoBehaviour
 
     public void DamageEnemy(int quantity)
     {
-        GameManager.instance.UpdateScore(enemyScorePoints);
-
         currentLife -= quantity;
         if (currentLife <= 0)
+        {
+            GameManager.instance.UpdateScore(enemyScorePoints);
             Destroy(gameObject);
+        }
     }
 }
 

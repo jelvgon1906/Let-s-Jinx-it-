@@ -24,11 +24,18 @@ public class FishBonesController : MonoBehaviour
         /*else if (GetComponent<ControlEnemy>())
         {
             shortFrequency = controlEnemy.EnemyData.shootFrequency;
-        }
-*/
+        }*/
 
-
-            objectPool = GetComponent<ObjectPool>();
+        objectPool = GetComponent<ObjectPool>();
+        
+    }
+    private void LateUpdate()
+    {
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
+    }
+    private void OnEnable()
+    {
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 
     public bool canShoot()
@@ -59,6 +66,8 @@ public class FishBonesController : MonoBehaviour
 
         ball.GetComponent<Rigidbody>().velocity = outPosition.forward * ballSpeed;
         gameObject.SetActive(true);
+
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 
     

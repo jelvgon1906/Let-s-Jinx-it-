@@ -27,15 +27,18 @@ public class ControlPlayer : MonoBehaviour
     [SerializeField] private GameObject hands;
     [SerializeField] private GameObject handRight;
     [SerializeField] private GameObject EnergyBar;
+    [SerializeField] private GameObject textAmmo;
     [SerializeField] private GameObject Cannons;
-    public GameObject Pivot;
     GameObject targetWeapon;
     GameObject ZapWeapon, FishBonesWeapon, PowPowWeapon, BombWeapon;
+    public AudioSource audioZap, audioBomb, audioCannon;
     Rigidbody rb;
 
     [SerializeField] private float cannonRotationSpeed;
     [SerializeField] private bool rotateCanyon;
     float x = 0;
+    private bool pause;
+    public static ControlPlayer instance;
 
     // Start is called before the first frame update
     void Start()
@@ -49,10 +52,11 @@ public class ControlPlayer : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         CameraPlayer = Camera.main;
 
-
+        
         handRight.SetActive(true);
         targetWeapon = FishBonesWeapon;
         ChangeWeapon();
+        textAmmo.SetActive(true);
     }
 
     // Update is called once per frame
@@ -60,27 +64,36 @@ public class ControlPlayer : MonoBehaviour
     {
         MovePlayer();
         CameraView();
+        if (Input.GetButtonUp("Cancel"))
+        {
+            if (pause) pause = false;
+            else if (!pause) pause = true;
+        }
         if (Input.GetButtonDown("Jump")) Jump();
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && !pause)
         {
+            Cursor.lockState = CursorLockMode.Locked;
             /*if (zap.canShoot() && targetWeapon == FishBonesWeapon)*/
             if (zap.canShoot() && targetWeapon == ZapWeapon)
             {
                 zap.Shoot();
+                audioZap.Play();
             }
             if (fishBones.canShoot() && targetWeapon == FishBonesWeapon)
             {
                 fishBones.Shoot();
+                audioBomb.Play();
             }
             if (powPow.canShoot() && targetWeapon == PowPowWeapon)
             {
                 powPow.Shoot();
+                audioCannon.Play();
             }
             rotateCanyon = true;
         }else rotateCanyon = false;
 
-        if (rotateCanyon) cannonRotation();
+        if (rotateCanyon && !pause) cannonRotation();
 
         if (Input.GetButton("Fire2") && targetWeapon == ZapWeapon)
         {
@@ -96,12 +109,14 @@ public class ControlPlayer : MonoBehaviour
             hands.transform.localPosition = new Vector3(0.107000001f, 0f, 0.100000001f);
             targetWeapon = FishBonesWeapon;
             ChangeWeapon(/*FishBonesWeapon*/);
+            textAmmo.SetActive(true);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             handRight.SetActive(false);
             targetWeapon = PowPowWeapon;
             ChangeWeapon();
+            textAmmo.SetActive(true);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -110,21 +125,16 @@ public class ControlPlayer : MonoBehaviour
             hands.transform.localPosition = Vector3.zero;
             ChangeWeapon(/*ZapWeapon*/);
             EnergyBar.SetActive(true);
+
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        /*if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             handRight.SetActive(true);
             targetWeapon = BombWeapon;
             hands.transform.localPosition = Vector3.zero;
-            ChangeWeapon(/*BombWeapon*/);
-        }
-
-        Cursor.lockState = CursorLockMode.Locked;
-
-
+            ChangeWeapon(*//*BombWeapon*//*);
+        }*/
     }
-
-    
 
     private void ChangeWeapon(/*GameObject targetWeapon*/)
     {
@@ -132,6 +142,7 @@ public class ControlPlayer : MonoBehaviour
         ZapWeapon.SetActive(false);
         BombWeapon.SetActive(false);
         EnergyBar.SetActive(false);
+        textAmmo.SetActive(false);
         PowPowWeapon.SetActive(false);
 
         targetWeapon.SetActive(true);
@@ -196,6 +207,7 @@ public class ControlPlayer : MonoBehaviour
             Debug.Log("Game Over");
             animator.SetTrigger("death");
             hands.SetActive(false);
+
         }
             
         
