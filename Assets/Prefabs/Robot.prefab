@@ -159,6 +159,9 @@ MonoBehaviour:
   damageQuantity: 5
   Range: 0
   Mele: 1
+  ammo1: {fileID: 1849725268866512998, guid: 07c18f86c4adca240a78ea3a24d66245, type: 3}
+  ammo2: {fileID: 3665564039934777436, guid: 79c554d52a4f28f4c93fbc66225d1ebb, type: 3}
+  healthPotion: {fileID: 5067130901852294426, guid: a4ae8a3067491734599ddc34594945ff, type: 3}
 --- !u!1001 &4995664807417700945
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -319,7 +319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541694, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: infiniteAmmo
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 47505021092541694, guid: 9a93a57c25139484fb4d50ef27db8a0a, type: 3}
       propertyPath: shotFrequency
@@ -1127,7 +1127,7 @@ MonoBehaviour:
   outPosition2: {fileID: 329907661315366554}
   currentAmmo: 500
   maxAmmo: 500
-  infiniteAmmo: 1
+  infiniteAmmo: 0
   ballSpeed: 50
   shotFrequency: 0.1
   isPlayer: 1

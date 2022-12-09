@@ -6,6 +6,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
+using UnityEngine.Rendering.PostProcessing;
+using Random = UnityEngine.Random;
 
 public class ControlEnemy : MonoBehaviour
 {
@@ -46,6 +48,11 @@ public class ControlEnemy : MonoBehaviour
     [SerializeField] private bool Range;
     [SerializeField] private bool Mele;
     private float startSpeed;
+
+    [Header("Drops")]
+    [SerializeField] GameObject ammo1;
+    [SerializeField] GameObject ammo2;
+    [SerializeField] GameObject healthPotion;
 
     private void Start()
     {
@@ -234,6 +241,20 @@ public class ControlEnemy : MonoBehaviour
         if (currentLife <= 0)
         {
             GameManager.instance.UpdateScore(enemyScorePoints);
+            float drop;
+            drop = Random.Range(0, 100);
+
+            if (drop > 99)
+            {
+                Instantiate(ammo1, transform.position, transform.rotation);
+            }
+            else if(drop <= 99 && drop >90){
+                Instantiate(ammo2, transform.position, transform.rotation);
+            }
+            else if (drop <= 90 && drop > 85)
+            {
+                Instantiate(healthPotion, transform.position, transform.rotation); 
+            }
             Destroy(gameObject);
         }
     }

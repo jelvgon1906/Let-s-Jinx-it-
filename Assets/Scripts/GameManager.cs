@@ -8,9 +8,8 @@ public class GameManager : MonoBehaviour
     public int score;
 
     public static GameManager instance;
-
+    private bool gameEnd;
     public bool gamePaused;
-
 
     private void Awake()
     {
@@ -21,6 +20,7 @@ public class GameManager : MonoBehaviour
     {
         score += points;
         HUDController.instance.UpdateScore(score);
+        
     }
     public void UpdateButton(bool paused)
     {
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonUp("Cancel") )
+        if (Input.GetButtonUp("Cancel") && !gameEnd)
         {
             UpdateGamePause();
             
@@ -46,4 +46,18 @@ public class GameManager : MonoBehaviour
 
         HUDController.instance.ChangeStatePauseWindow(gamePaused);
     }
+    public void EndGame()
+    {
+        gameEnd = true;
+        gamePaused = !gamePaused;
+        //if hamePaused freeze game, else continue normal
+        Time.timeScale = (gamePaused) ? 0.0f : 1f;
+        //lock & unlock cursor
+        Cursor.lockState = (gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
+
+
+        ScoreUi.scoreUi.ScoreUpdate(score);
+    }
+
+    
 }

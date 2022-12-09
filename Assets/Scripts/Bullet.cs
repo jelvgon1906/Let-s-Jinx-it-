@@ -3,11 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.GraphicsBuffer;
 
 public class Bullet : MonoBehaviour
 {
@@ -156,7 +153,7 @@ public class Bullet : MonoBehaviour
                 GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
             }
         }
-        else if (collision.gameObject.tag == "Enemy")
+        else if (collision.gameObject.tag == "Projectile")
         {
 
         }
@@ -208,7 +205,7 @@ public class Bullet : MonoBehaviour
                 GameObject boom = Instantiate(explosion, transform.position, Quaternion.identity);
                 
             }
-            gameObject.SetActive(false); ;
+            gameObject.SetActive(false); 
         }
          
 

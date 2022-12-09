@@ -39,15 +39,17 @@ public class ControlPlayer : MonoBehaviour
     float x = 0;
     private bool pause;
     public static ControlPlayer instance;
+    [SerializeField] private GameObject endGame; 
+    [SerializeField] private GameObject ScoreWindow;
 
     // Start is called before the first frame update
     void Start()
     {
-        FishBonesWeapon = GameObject.Find("/Player/CameraPlayer/hands/FishBones");
-        ZapWeapon = GameObject.Find("/Player/CameraPlayer/hands/Zap");
-        PowPowWeapon = GameObject.Find("/Player/CameraPlayer/hands/PowPow");
-        /*Cannons = GameObject.Find("/Player/CameraPlayer/hands/PowPow/Jinx_PowPow/Cannons");*/
-        BombWeapon = GameObject.Find("/Player/CameraPlayer/hands/Bomb");
+        FishBonesWeapon = GameObject.Find("/Game/Player/CameraPlayer/hands/FishBones");
+        ZapWeapon = GameObject.Find("/Game/Player/CameraPlayer/hands/Zap");
+        PowPowWeapon = GameObject.Find("/Game/Player/CameraPlayer/hands/PowPow");
+        /*Cannons = GameObject.Find("/Game/Player/CameraPlayer/hands/PowPow/Jinx_PowPow/Cannons");*/
+        BombWeapon = GameObject.Find("/Game/Player/CameraPlayer/hands/Bomb");
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         CameraPlayer = Camera.main;
@@ -207,10 +209,20 @@ public class ControlPlayer : MonoBehaviour
             Debug.Log("Game Over");
             animator.SetTrigger("death");
             hands.SetActive(false);
-
+            Invoke(nameof(GameOver), 1.5f);
+        }else if(currentLife > maxLife)
+        {
+            currentLife = maxLife;
         }
             
         
+    }
+
+    void GameOver()
+    {
+        endGame.SetActive(true);
+        ScoreWindow.SetActive(true);
+        GameManager.instance.EndGame();
     }
 
     private void cannonRotation()

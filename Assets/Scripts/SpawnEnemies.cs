@@ -10,14 +10,18 @@ public class SpawnEnemies : MonoBehaviour
     [SerializeField] private int minX, maxX, minY, maxY, minZ, maxZ;
     [SerializeField] private float interval = 5;
     [SerializeField] private float spawnAceleration = 0.1f;
-    
+    [SerializeField] private int enemiesLeft;
+
     void Start()
     {
         InvokeRepeating("SpawnEnemy", 2.0f, interval);
     }
     public void SpawnEnemy()
     {
-            int x, y, z;
+        enemiesLeft = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        if (enemiesLeft < 50)
+        {
+        int x, y, z;
 
             x = Random.Range(minX, maxX);
             y = Random.Range(minY, maxY);
@@ -27,9 +31,10 @@ public class SpawnEnemies : MonoBehaviour
 
             Instantiate(enemy, spawnPosition, Quaternion.identity);
 
-        if (interval >= 1)
+        if (interval > 1)
         {
             interval -= spawnAceleration;
+        }
         }
     }
 

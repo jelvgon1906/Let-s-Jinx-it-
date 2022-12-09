@@ -47,6 +47,14 @@ public class FishBonesController : MonoBehaviour
         }
         return false;
     }
+    public void AddAmmo(int ammoQuantity)
+    {
+        currentAmmo += ammoQuantity;
+
+        if (currentAmmo >= maxAmmo) currentAmmo = maxAmmo;
+
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
+    }
 
     public void Shoot()
     {

@@ -13,6 +13,12 @@ public class HUDController : MonoBehaviour
     public GameObject PauseWindow;
     public int maxAmmo;
 
+    public GameObject textoEstado;
+    public GameObject GameOver;
+    [SerializeField] private TextMeshProUGUI txtEstado;
+    public TMP_InputField inputNombre;
+    public Button botonConectar;
+
     private void Start()
     {
         instance = this;
@@ -41,5 +47,17 @@ public class HUDController : MonoBehaviour
         PauseWindow.SetActive(paused);
     }
 
-    
+    public void OnClickEnter()
+    {
+        if (!string.IsNullOrEmpty(inputNombre.text))
+        {
+            botonConectar.interactable = false;
+            GameOver.SetActive(false);
+        }
+        else
+        {
+            textoEstado.SetActive(true);
+            txtEstado.text = "Introduzca un nombre correcto para la sala";
+        }
+    }
 }

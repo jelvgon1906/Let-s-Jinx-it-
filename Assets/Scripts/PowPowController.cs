@@ -17,7 +17,6 @@ public class PowPowController : MonoBehaviour
     private ObjectPool objectPool;
     private float lastShootTime;
     public bool isPlayer;
-    private ControlEnemy controlEnemy;
 
     private void Awake()
     {
@@ -39,6 +38,15 @@ public class PowPowController : MonoBehaviour
         HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 
+    public void AddAmmo(int ammoQuantity)
+    {
+        currentAmmo += ammoQuantity;
+        
+        if (currentAmmo >= maxAmmo) currentAmmo = maxAmmo;
+        
+        HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
+    }
+
     public bool canShoot()
     {
         if ((Time.time - lastShootTime >= shotFrequency) && !GameManager.instance.gamePaused)
@@ -53,7 +61,7 @@ public class PowPowController : MonoBehaviour
     {
         lastShootTime = Time.time;
 
-        currentAmmo--;
+        currentAmmo -= 3;
 
         GameObject ball = objectPool.GetGameObject();
         /*ball.GetComponent<TrailRenderer>().time = 0;*/
@@ -74,7 +82,6 @@ public class PowPowController : MonoBehaviour
     private IEnumerator Shoot2()
     {
         yield return new WaitForSeconds(0.2f);
-        currentAmmo--;
 
         GameObject ball = objectPool.GetGameObject();
 
@@ -92,7 +99,6 @@ public class PowPowController : MonoBehaviour
     private IEnumerator Shoot3()
     {
         yield return new WaitForSeconds(0.2f);
-        currentAmmo--;
 
         GameObject ball = objectPool.GetGameObject();
 
