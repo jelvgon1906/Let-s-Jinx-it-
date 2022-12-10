@@ -192,7 +192,7 @@ public class ControlEnemy : MonoBehaviour
 
     public bool canHit()
     {
-        if ((Time.time - lastHitTime >= hitFrequency) && !GameManager.instance.gamePaused)
+        if ((Time.time - lastHitTime >= hitFrequency) && !GameManager.instance.gamePaused && !stunned)
         {
             return true;
         }
