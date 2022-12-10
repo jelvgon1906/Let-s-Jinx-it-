@@ -13,7 +13,7 @@ public class ScoreUi : MonoBehaviour
     public TMP_InputField inputNombre;
     public static ScoreUi scoreUi;
 
-    void Start()
+    void OnEnable()
     {
         scoreUi = this;
     }

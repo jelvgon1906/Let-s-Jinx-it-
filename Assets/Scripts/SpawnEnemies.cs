@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 public class SpawnEnemies : MonoBehaviour
@@ -11,12 +12,14 @@ public class SpawnEnemies : MonoBehaviour
     [SerializeField] private float interval = 5;
     [SerializeField] private float spawnAceleration = 0.1f;
     [SerializeField] private int enemiesLeft;
+    private Vector3 freePos;
 
     void Start()
     {
-        InvokeRepeating("SpawnEnemy", 2.0f, interval);
+        StartCoroutine(SpawnObjects());
+        /*InvokeRepeating("SpawnEnemy", 2.0f, interval);*/
     }
-    public void SpawnEnemy()
+    /*public void SpawnEnemy()
     {
         enemiesLeft = GameObject.FindGameObjectsWithTag("Enemy").Length;
         if (enemiesLeft < 50)
@@ -36,15 +39,35 @@ public class SpawnEnemies : MonoBehaviour
             interval -= spawnAceleration;
         }
         }
+    }*/
+    IEnumerator SpawnObjects()
+    {
+        enemiesLeft = GameObject.FindGameObjectsWithTag("Enemy").Length;
+
+        while (enemiesLeft < 50)
+        {
+            freePos =  GetFreePosition();
+            Instantiate(enemy, freePos, Quaternion.identity);
+            if (interval > 1)
+            {
+                interval -= spawnAceleration;
+            }
+            yield return new WaitForSeconds(interval);
+        }
     }
 
     
 
+    Vector3 GetFreePosition()
+    {
+        Vector3 position;
+        Collider[] collisions = new Collider[1];
+        do
+        {
+            position = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), Random.Range(minZ, maxZ));
+        }
+        while (Physics.OverlapSphereNonAlloc(position, 1f, collisions) > 0);
 
-
-
-
-
-
-
+        return position;
+    }
 }

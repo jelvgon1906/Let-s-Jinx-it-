@@ -40,7 +40,7 @@ public class ControlPlayer : MonoBehaviour
     private bool pause;
     public static ControlPlayer instance;
     [SerializeField] private GameObject endGame; 
-    [SerializeField] private GameObject ScoreWindow;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -220,8 +220,9 @@ public class ControlPlayer : MonoBehaviour
 
     void GameOver()
     {
+        pause = true;
         endGame.SetActive(true);
-        ScoreWindow.SetActive(true);
+        
         GameManager.instance.EndGame();
     }
 

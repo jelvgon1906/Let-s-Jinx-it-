@@ -15384,7 +15384,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!1001 &411328869
 PrefabInstance:
@@ -21948,7 +21948,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564822190}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47659,6 +47659,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1039468740}
     m_Modifications:
+    - target: {fileID: 2029869695, guid: ab5628c1c2231e740acd2747c965d349, type: 3}
+      propertyPath: EnemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: eea3a8a0553c86f4f963b7a2a2ca8893, type: 2}
     - target: {fileID: 6173058797671483137, guid: ab5628c1c2231e740acd2747c965d349, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -54312,7 +54316,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!224 &1413913954
 RectTransform:
@@ -57766,6 +57770,7 @@ MonoBehaviour:
   txtEstado: {fileID: 1050356173}
   inputNombre: {fileID: 1751703115}
   botonConectar: {fileID: 2017512825}
+  ScoreWindow: {fileID: 1888193963}
 --- !u!114 &1473823473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83293,6 +83298,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4149719658422280415, guid: ad75d867746a56f48af7038fb0a6ea42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4536458537040923128, guid: ad75d867746a56f48af7038fb0a6ea42, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -54,8 +54,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = (gamePaused) ? 0.0f : 1f;
         //lock & unlock cursor
         Cursor.lockState = (gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
+    }
 
-
+    public void UpdateScore()
+    {
         ScoreUi.scoreUi.ScoreUpdate(score);
     }
 

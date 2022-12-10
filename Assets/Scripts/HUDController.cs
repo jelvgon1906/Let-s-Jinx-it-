@@ -18,6 +18,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI txtEstado;
     public TMP_InputField inputNombre;
     public Button botonConectar;
+    [SerializeField] private GameObject ScoreWindow;
 
     private void Start()
     {
@@ -52,7 +53,9 @@ public class HUDController : MonoBehaviour
         if (!string.IsNullOrEmpty(inputNombre.text))
         {
             botonConectar.interactable = false;
+            ScoreWindow.SetActive(true);
             GameOver.SetActive(false);
+            GameManager.instance.UpdateScore();
         }
         else
         {
