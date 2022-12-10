@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 816e9b9b45ea06c42a86955a47d42190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageQuantity: 5
+  damageQuantity: 14
   activeTime: 3
   shootTime: 0
   isPlayer: 0

@@ -244,14 +244,14 @@ public class ControlEnemy : MonoBehaviour
             float drop;
             drop = Random.Range(0, 100);
 
-            if (drop > 99)
+            if (drop > 97)
             {
                 Instantiate(ammo1, transform.position, transform.rotation);
             }
-            else if(drop <= 99 && drop >90){
+            else if(drop <= 97 && drop >85){
                 Instantiate(ammo2, transform.position, transform.rotation);
             }
-            else if (drop <= 90 && drop > 85)
+            else if (drop <= 85 && drop > 70)
             {
                 Instantiate(healthPotion, transform.position, transform.rotation); 
             }

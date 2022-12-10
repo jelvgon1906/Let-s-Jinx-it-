@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class PowPowController : MonoBehaviour
     private ObjectPool objectPool;
     private float lastShootTime;
     public bool isPlayer;
+    public float aimZone = 50f;
+    [SerializeField] private Camera CameraPlayer;
 
     private void Awake()
     {
@@ -28,8 +31,6 @@ public class PowPowController : MonoBehaviour
             shortFrequency = controlEnemy.EnemyData.shootFrequency;
         }
 */
-
-
         objectPool = GetComponent<ObjectPool>();
     }
 
@@ -38,6 +39,13 @@ public class PowPowController : MonoBehaviour
         HUDController.instance.UpdateAmmo(currentAmmo, maxAmmo);
     }
 
+    private void FixedUpdate()
+    {
+        Vector3 aimSpot = CameraPlayer.transform.position;
+        //You will want to play around with the 50 to make it feel accurate.
+        aimSpot += CameraPlayer.transform.forward * aimZone;
+        transform.LookAt(aimSpot);
+    }
     public void AddAmmo(int ammoQuantity)
     {
         currentAmmo += ammoQuantity;
