@@ -2,7 +2,10 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +14,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private bool gameEnd;
     public bool gamePaused;
-    [SerializeField] private GameObject hands;
 
 
     private void Awake()
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour
         //if hamePaused freeze game, else continue normal
         Time.timeScale = (gamePaused) ? 0.0f : 1f;
         //lock & unlock cursor
-        Cursor.lockState = (gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
+        UnityEngine.Cursor.lockState = (gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
 
         HUDController.instance.ChangeStatePauseWindow(gamePaused);
     }
@@ -66,10 +68,12 @@ public class GameManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
+        
         Debug.Log("uwu");
         FindObjectOfType<SpawnEnemies>().enabled = true;
+        /*GameObject.Find("CameraPlayer").GetComponent<Transform>()*/
         Destroy(FindObjectOfType<CinemachineVirtualCamera>().gameObject);
-        hands.SetActive(true);
+        GameObject.Find("CameraPlayer").GetComponent<Transform>().SetLocalPositionAndRotation(new Vector3(0, 0.4861f, 0.037f), new Quaternion(0, 0, 0, 0));
     }
 
     

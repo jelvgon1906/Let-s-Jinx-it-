@@ -182,7 +182,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4149719658422280410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 92.3, y: 26.52, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -238,6 +238,7 @@ MonoBehaviour:
   audioCannon: {fileID: 1064998167}
   cannonRotationSpeed: 20
   rotateCanyon: 0
+  endGame: {fileID: 0}
 --- !u!54 &4149719658422280401
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1131,6 +1132,8 @@ MonoBehaviour:
   ballSpeed: 50
   shotFrequency: 0.1
   isPlayer: 1
+  aimZone: 50
+  CameraPlayer: {fileID: 0}
 --- !u!4 &7259053353736505738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3863377322052008789, guid: 4cb31a81cbf599145a20de2969b3a8ef, type: 3}

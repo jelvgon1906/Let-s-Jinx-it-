@@ -24,6 +24,10 @@ public class HUDController : MonoBehaviour
     {
         instance = this;
         
+        
+    }
+    private void OnEnable()
+    {
         currentHealthBar = GameObject.Find("CurrentHealthbar").GetComponent<Image>();
     }
 

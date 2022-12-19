@@ -29,6 +29,7 @@ public class ControlPlayer : MonoBehaviour
     [SerializeField] private GameObject EnergyBar;
     [SerializeField] private GameObject textAmmo;
     [SerializeField] private GameObject Cannons;
+    [SerializeField] private GameObject HUD;
     GameObject targetWeapon;
     GameObject ZapWeapon, FishBonesWeapon, PowPowWeapon, BombWeapon;
     public AudioSource audioZap, audioBomb, audioCannon;
@@ -39,12 +40,14 @@ public class ControlPlayer : MonoBehaviour
     float x = 0;
     private bool pause;
     public static ControlPlayer instance;
-    [SerializeField] private GameObject endGame; 
-    
+    [SerializeField] private GameObject endGame;
+    private bool ActiveMode = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        
         FishBonesWeapon = GameObject.Find("/Game/Player/CameraPlayer/hands/FishBones");
         ZapWeapon = GameObject.Find("/Game/Player/CameraPlayer/hands/Zap");
         PowPowWeapon = GameObject.Find("/Game/Player/CameraPlayer/hands/PowPow");
@@ -54,88 +57,98 @@ public class ControlPlayer : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         CameraPlayer = Camera.main;
 
-        
         handRight.SetActive(true);
         targetWeapon = FishBonesWeapon;
         ChangeWeapon();
         textAmmo.SetActive(true);
     }
 
+    public void ActivatePlayer()
+    {
+        HUD.SetActive(true);
+        hands.SetActive(true);
+        ActiveMode = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
-        CameraView();
-        if (Input.GetButtonUp("Cancel"))
-        {
-            if (pause) pause = false;
-            else if (!pause) pause = true;
-        }
-        if (Input.GetButtonDown("Jump")) Jump();
-
-        if (Input.GetButton("Fire1") && !pause)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            /*if (zap.canShoot() && targetWeapon == FishBonesWeapon)*/
-            if (zap.canShoot() && targetWeapon == ZapWeapon)
+        if (ActiveMode) {
+            MovePlayer();
+            CameraView();
+            if (Input.GetButtonUp("Cancel"))
             {
-                zap.Shoot();
-                audioZap.Play();
+                if (pause) pause = false;
+                else if (!pause) pause = true;
             }
-            if (fishBones.canShoot() && targetWeapon == FishBonesWeapon)
+            if (Input.GetButtonDown("Jump")) Jump();
+
+            if (Input.GetButton("Fire1") && !pause)
             {
-                fishBones.Shoot();
-                audioBomb.Play();
+                Cursor.lockState = CursorLockMode.Locked;
+                /*if (zap.canShoot() && targetWeapon == FishBonesWeapon)*/
+                if (zap.canShoot() && targetWeapon == ZapWeapon)
+                {
+                    zap.Shoot();
+                    audioZap.Play();
+                }
+                if (fishBones.canShoot() && targetWeapon == FishBonesWeapon)
+                {
+                    fishBones.Shoot();
+                    audioBomb.Play();
+                }
+                if (powPow.canShoot() && targetWeapon == PowPowWeapon)
+                {
+                    powPow.Shoot();
+                    audioCannon.Play();
+                }
+                rotateCanyon = true;
             }
-            if (powPow.canShoot() && targetWeapon == PowPowWeapon)
+            else rotateCanyon = false;
+
+            if (rotateCanyon && !pause) cannonRotation();
+
+            if (Input.GetButton("Fire2") && targetWeapon == ZapWeapon)
             {
-                powPow.Shoot();
-                audioCannon.Play();
+                zap = FindObjectOfType(typeof(ZapController)) as ZapController;
+                hands.transform.localPosition = new Vector3(-0.211999997f, -0.0149999997f, 0f);
+
             }
-            rotateCanyon = true;
-        }else rotateCanyon = false;
+            else if (Input.GetButtonUp("Fire2") && targetWeapon == ZapWeapon) hands.transform.localPosition = Vector3.zero;
 
-        if (rotateCanyon && !pause) cannonRotation();
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                handRight.SetActive(true);
+                hands.transform.localPosition = new Vector3(0.107000001f, 0f, 0.100000001f);
+                targetWeapon = FishBonesWeapon;
+                ChangeWeapon(/*FishBonesWeapon*/);
+                textAmmo.SetActive(true);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                handRight.SetActive(false);
+                targetWeapon = PowPowWeapon;
+                ChangeWeapon();
+                textAmmo.SetActive(true);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                handRight.SetActive(true);
+                targetWeapon = ZapWeapon;
+                hands.transform.localPosition = Vector3.zero;
+                ChangeWeapon(/*ZapWeapon*/);
+                EnergyBar.SetActive(true);
 
-        if (Input.GetButton("Fire2") && targetWeapon == ZapWeapon)
-        {
-            zap = FindObjectOfType(typeof(ZapController)) as ZapController;
-            hands.transform.localPosition = new Vector3(-0.211999997f, -0.0149999997f, 0f);
-
+            }
+            /*if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                handRight.SetActive(true);
+                targetWeapon = BombWeapon;
+                hands.transform.localPosition = Vector3.zero;
+                ChangeWeapon(*//*BombWeapon*//*);
+            }*/
         }
-        else if(Input.GetButtonUp("Fire2") && targetWeapon == ZapWeapon) hands.transform.localPosition = Vector3.zero;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            handRight.SetActive(true);
-            hands.transform.localPosition = new Vector3(0.107000001f, 0f, 0.100000001f);
-            targetWeapon = FishBonesWeapon;
-            ChangeWeapon(/*FishBonesWeapon*/);
-            textAmmo.SetActive(true);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            handRight.SetActive(false);
-            targetWeapon = PowPowWeapon;
-            ChangeWeapon();
-            textAmmo.SetActive(true);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            handRight.SetActive(true);
-            targetWeapon = ZapWeapon;
-            hands.transform.localPosition = Vector3.zero;
-            ChangeWeapon(/*ZapWeapon*/);
-            EnergyBar.SetActive(true);
-
-        }
-        /*if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            handRight.SetActive(true);
-            targetWeapon = BombWeapon;
-            hands.transform.localPosition = Vector3.zero;
-            ChangeWeapon(*//*BombWeapon*//*);
-        }*/
     }
 
     private void ChangeWeapon(/*GameObject targetWeapon*/)
