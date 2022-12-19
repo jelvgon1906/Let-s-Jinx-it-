@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private bool gameEnd;
     public bool gamePaused;
+    [SerializeField] private GameObject hands;
+
 
     private void Awake()
     {
@@ -59,6 +62,14 @@ public class GameManager : MonoBehaviour
     public void UpdateScore()
     {
         ScoreUi.scoreUi.ScoreUpdate(score);
+    }
+
+    public void SpawnEnemies()
+    {
+        Debug.Log("uwu");
+        FindObjectOfType<SpawnEnemies>().enabled = true;
+        Destroy(FindObjectOfType<CinemachineVirtualCamera>().gameObject);
+        hands.SetActive(true);
     }
 
     
